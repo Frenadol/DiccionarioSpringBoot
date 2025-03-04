@@ -1,4 +1,4 @@
-package models;
+package com.frenadol.diccionariofernandospringboot.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -35,7 +35,16 @@ public class Definicion {
     @JsonBackReference
     private Palabra palabra;
 
+    public Definicion(Long id, Palabra palabra, String ejemplo, String descripcion) {
+        this.id = id;
+        this.palabra = palabra;
+        this.ejemplo = ejemplo;
+        this.descripcion = descripcion;
+    }
 
+    public Definicion() {
+
+    }
 
     @Override
     public String toString() {

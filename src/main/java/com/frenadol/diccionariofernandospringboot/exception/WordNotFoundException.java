@@ -1,4 +1,4 @@
-package exception;
+package com.frenadol.diccionariofernandospringboot.exception;
 
 public class WordNotFoundException extends RuntimeException {
 

@@ -1,5 +1,6 @@
-package models;
+package com.frenadol.diccionariofernandospringboot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +33,17 @@ public class Palabra {
     @JsonManagedReference
     @OneToMany(mappedBy = "palabra")
     private Set<Definicion> definiciones = new LinkedHashSet<>();
+
+    public Palabra(Long id, String termino, String categoriaGramatical, Set<Definicion> definiciones) {
+        this.id = id;
+        this.termino = termino;
+        this.categoriaGramatical = categoriaGramatical;
+        this.definiciones = definiciones;
+    }
+
+    public Palabra() {
+
+    }
 
     @Override
     public String toString() {

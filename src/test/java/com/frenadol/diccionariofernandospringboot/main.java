@@ -1,6 +1,6 @@
 package com.frenadol.diccionariofernandospringboot;
 
-import servicies.WordService;
+import com.frenadol.diccionariofernandospringboot.servicies.WordService;
 
 public class main {
 
