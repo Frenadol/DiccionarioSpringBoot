@@ -7,6 +7,7 @@ import com.frenadol.diccionariofernandospringboot.repositories.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +62,12 @@ public class WordService {
     }
     public List<Palabra> getWordsByInitialLetter(String initialLetter) {
         return wordRepository.findWordsByInitialLetter(initialLetter);
+    }
+    public Palabra getWordWithDefinitions(Long id) throws WordNotFoundException {
+        Palabra palabra = getWordById(id);
+        List<Definicion> definiciones = definitionService.getDefinitionsByWordId(id);
+        palabra.setDefiniciones(new LinkedHashSet<>(definiciones));
+        return palabra;
     }
 
     public void deleteWord(Long id) throws WordNotFoundException {

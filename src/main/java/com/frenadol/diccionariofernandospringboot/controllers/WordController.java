@@ -61,12 +61,11 @@ public class WordController {
         return ResponseEntity.status(HttpStatus.OK).body(wordUpdated);
     }
 
-    @GetMapping("/{id}/definiciones")
-    public ResponseEntity<List<Definicion>> getDefinicionesByWord(@PathVariable long id) throws WordNotFoundException {
-        List<Definicion> definiciones = definitionService.getDefinitionsByWordId(id);
-        return ResponseEntity.status(HttpStatus.OK).body(definiciones);
+    @GetMapping("/{id}/condefiniciones")
+    public ResponseEntity<Palabra> getWordWithDefinitions(@PathVariable Long id) throws WordNotFoundException {
+        Palabra palabra = wordService.getWordWithDefinitions(id);
+        return ResponseEntity.status(HttpStatus.OK).body(palabra);
     }
-
     @PostMapping("/{id}/definiciones")
     public ResponseEntity<Definicion> createNewDefinition(@PathVariable long id, @RequestBody Definicion definition) throws WordNotFoundException {
         Palabra palabra = wordService.getWordById(id);
