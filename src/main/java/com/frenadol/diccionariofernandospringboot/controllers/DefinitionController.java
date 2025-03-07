@@ -5,6 +5,7 @@ import com.frenadol.diccionariofernandospringboot.models.Definicion;
 import com.frenadol.diccionariofernandospringboot.models.Palabra;
 import com.frenadol.diccionariofernandospringboot.servicies.DefinitionService;
 import com.frenadol.diccionariofernandospringboot.servicies.WordService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,16 +24,8 @@ public class DefinitionController {
     @Autowired
     WordService wordService;
 
-    @GetMapping("/{id}")
-    public Definicion getDefinicionById(@PathVariable Long id) throws WordNotFoundException {
-        return definitionService.getDefinitionById(id);
-    }
 
-    @GetMapping
-    public ResponseEntity<List<Definicion>> getAllDefiniciones() {
-        List<Definicion> definiciones = definitionService.getAllDefinitions();
-        return new ResponseEntity<>(definiciones, new HttpHeaders(), HttpStatus.OK);
-    }
+    @Operation(summary = "Obtener todas las definiciones de una palabra mediante su ID")
     @GetMapping("/palabra/{id}/definiciones")
     public ResponseEntity<Palabra> getDefinicionesByWordId(@PathVariable Long id) throws WordNotFoundException {
         Palabra palabra = wordService.getWordById(id);
@@ -40,18 +33,18 @@ public class DefinitionController {
         palabra.setDefiniciones(new LinkedHashSet<>(definiciones));
         return new ResponseEntity<>(palabra, new HttpHeaders(), HttpStatus.OK);
     }
-    @PostMapping
-    public ResponseEntity<Definicion> createDefinition(@RequestBody Definicion definition) {
+
+    @Operation(summary = "Crear una nueva definición para una palabra")
+    @PostMapping("/palabra/{id}/definiciones")
+    public ResponseEntity<Definicion> createNewDefinition(@PathVariable long id, @RequestBody Definicion definition) throws WordNotFoundException {
+        Palabra palabra = wordService.getWordById(id);
+        definition.setPalabra(palabra);
         Definicion createdDefinition = definitionService.createDefinition(definition);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDefinition);
-    }
+        }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Definicion> updateDefinition(@PathVariable Long id, @RequestBody Definicion updatedDefinition) throws WordNotFoundException {
-        Definicion definitionUpdated = definitionService.updateDefinition(id, updatedDefinition);
-        return ResponseEntity.status(HttpStatus.OK).body(definitionUpdated);
-    }
 
+    @Operation(summary = "Eliminar una definición de una palabra por su ID")
     @DeleteMapping("/{id}")
     public HttpStatus deleteDefinitionById(@PathVariable Long id) throws WordNotFoundException {
         definitionService.deleteDefinition(id);
