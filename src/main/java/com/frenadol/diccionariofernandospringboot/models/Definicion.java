@@ -28,11 +28,11 @@ public class Definicion {
     @Column(name = "ejemplo", nullable = false)
     private String ejemplo;
 
+    @JsonBackReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "palabra_id", nullable = false)
-    @JsonBackReference
     private Palabra palabra;
 
     public Definicion(Long id, Palabra palabra, String ejemplo, String descripcion) {
